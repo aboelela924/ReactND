@@ -1,63 +1,40 @@
 import React, { Component } from 'react';
 import ContactList from "./ContactList"
+import CreateContact from "./CreateContact"
+import {getAll, remove} from "./utils/ContactsAPI"
 
 
-const contacts = [
-  {
-    "id": "ryan",
-    "name": "Ryan Florence",
-    "email": "ryan@reacttraining.com",
-    "avatarURL": "http://localhost:5001/ryan.jpg"
-  },
-  {
-    "id": "michael",
-    "name": "Michael Jackson",
-    "email": "michael@reacttraining.com",
-    "avatarURL": "http://localhost:5001/michael.jpg"
-  },
-  {
-    "id": "tyler",
-    "name": "Tyler McGinnis",
-    "email": "tyler@reacttraining.com",
-    "avatarURL": "http://localhost:5001/tyler.jpg"
-  }
-]
 
 class App extends Component{
 
   state = {
-    contacts: [
-      {
-        "id": "ryan",
-        "name": "Ryan Florence",
-        "email": "ryan@reacttraining.com",
-        "avatarURL": "http://localhost:5001/ryan.jpg"
-      },
-      {
-        "id": "michael",
-        "name": "Michael Jackson",
-        "email": "michael@reacttraining.com",
-        "avatarURL": "http://localhost:5001/michael.jpg"
-      },
-      {
-        "id": "tyler",
-        "name": "Tyler McGinnis",
-        "email": "tyler@reacttraining.com",
-        "avatarURL": "http://localhost:5001/tyler.jpg"
-      }
-    ]
+    screen:"display", 
+    contacts: []
+  }
+
+  componentDidMount(){
+    getAll().then(contacts => {
+      this.setState({contacts})
+    })
   }
 
   onDeleteClick = (id) => { 
     this.setState((prevState) =>({
       contacts: prevState.contacts.filter(contact => contact.id !== id)
     }))
+    remove(id)
   }
 
   render(){
     return (
       <div>
-        <ContactList contacts={this.state.contacts} onDelete={this.onDeleteClick}/>
+        {this.state.screen === "display" && (
+          <ContactList contacts={this.state.contacts} onDelete={this.onDeleteClick} onNavigate={()=>this.setState({screen:"create"})}/>
+        )}
+        {this.state.screen == "create" && (
+          <CreateContact />
+        )}
+        
       </div>
     )
   }

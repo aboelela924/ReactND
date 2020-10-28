@@ -15,8 +15,8 @@ export const getAll = () =>
     .then(res => res.json())
     .then(data => data.contacts)
 
-export const remove = (contact) =>
-  fetch(`${api}/contacts/${contact.id}`, { method: 'DELETE', headers })
+export const remove = (id) =>
+  fetch(`${api}/contacts/${id}`, { method: 'DELETE', headers })
     .then(res => res.json())
     .then(data => data.contact)
 

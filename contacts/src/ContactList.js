@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import escapeRegExp from "escape-string-regexp"
 import sortBy from "sort-by"
 
+
 class ContactList extends Component{
     static propTypes = {
         contacts: PropTypes.array.isRequired, 
@@ -12,6 +13,8 @@ class ContactList extends Component{
     state = {
         query: ""
     }
+
+    
 
     onQueryChange = (value) => {
         this.setState({ 
@@ -46,6 +49,7 @@ class ContactList extends Component{
             <div className="list-contacts">
                 <div className="list-contacts-top">
                     <input type="text" className="search-contacts" value={query} onChange={(event) => this.onQueryChange(event.target.value)}/>
+                    <a ref="#create" onClick={this.props.onNavigate} className="add-contact"/>
                 </div>
                 {filteredContacts.length != contacts.length && (
                     <div className="showing-contacts">
@@ -53,6 +57,7 @@ class ContactList extends Component{
                         <button onClick={this.resetQuery}>Show all</button>
                     </div>
                 )}
+                
                 <ol className="contact-list">
                     {filteredContacts
                     .map((contact, index) => (
